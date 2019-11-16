@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 public class BedTeleport implements CommandExecutor {
 
     private boolean overworldReq = Main.plugin.config.getBoolean("bedtp.require-overworld");
+    private int time = Main.plugin.config.getInt("bedtp.time");
 
     private boolean plyrOverwold(Player player) {
         World.Environment env = player.getWorld().getEnvironment();
@@ -27,7 +28,9 @@ public class BedTeleport implements CommandExecutor {
             sender.sendMessage("Sender is not a player!");
         } else {
             Player player = (Player) sender;
-            if (player.getBedSpawnLocation() != null && plyrOverwold(player)) return new TeleportProgress(player, player.getBedSpawnLocation()).runn >= 0;
+            int time = Main.plugin.config.getInt("bedtp.time");
+            if (player.getWorld().getEnvironment() != World.Environment.NORMAL) time *= Main.plugin.config.getInt("bedtp.dimension-multiplier");
+            if (player.getBedSpawnLocation() != null && plyrOverwold(player)) return new TeleportProgress(player, player.getBedSpawnLocation(), time).runn >= 0;
             else {
                 String errMes = ChatColor.RED + "Pillow.BedTP was unable to begin teleport. This could be due to: \n" +
                                 ChatColor.GOLD + ChatColor.ITALIC + " - Your bed missing.\n" +

@@ -22,7 +22,7 @@ public final class Main extends JavaPlugin {
         if (config.getBoolean("multiplayersleep.enabled")) {
             control = new SleepController();
             getServer().getPluginManager().registerEvents(new SleepListener(), this);
-            if (Main.plugin.config.getString("multiplayersleep.world") == null) {
+            if (Main.plugin.config.getString("world") == null) {
                 Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Pillow.MultiplayerSleep was unable to locate a world named '" + Main.plugin.config.getString("multiplayersleep.world") + "'!");
                 Bukkit.getPluginManager().disablePlugin(this);
             }

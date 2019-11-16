@@ -16,16 +16,17 @@ class TeleportProgress {
     Player player;
     BossBar bossTime;
     Location playerLoc;
-    int seconds = Main.plugin.config.getInt("teleport-time");
+    int seconds;
     Location tpLoc;
 
-    TeleportProgress(Player player, Location intend) {
+    TeleportProgress(Player player, Location intend, int sec) {
         this.player = player;
         bossTime = Main.plugin.getServer().createBossBar(ChatColor.GOLD + "Teleporting...", BarColor.YELLOW, BarStyle.SOLID, BarFlag.CREATE_FOG);
         bossTime.setProgress(1);
         bossTime.addPlayer(player);
         playerLoc = player.getLocation();
         tpLoc = intend;
+        this.seconds = sec;
     }
 
     int runn = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.plugin, new Runnable() {

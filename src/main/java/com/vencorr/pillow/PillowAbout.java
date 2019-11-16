@@ -22,7 +22,7 @@ public class PillowAbout implements CommandExecutor {
         if ((sender instanceof Player && Main.plugin.hasPerms((Player) sender, "pillow.about")) || sender instanceof ConsoleCommandSender) {
 
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lPillow Plugin Information\n&r" +
-                    "&6Version: &e0.1.2\n" +
+                    "&6Version: &e0.1.3\n" +
                     "&6Author: &eVencorr\n" +
                     "&6Modules: &e" + mods() + "\n" +
                     "&6GitHub: &ehttps://github.com/Vencorr/Pillow&r"));

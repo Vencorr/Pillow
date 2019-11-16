@@ -38,6 +38,7 @@ public class SleepController {
         public void run() {
             World world = Bukkit.getWorld(Main.plugin.config.getString("multiplayersleep.world"));
             double value = sleeping / sleepLimit;
+            if (sleeping == 0) value = 0;
             if (world.getTime() >= 13000 && !Double.isNaN(value)) {
                 updatePlayers();
                 sleepBar.setProgress(value);

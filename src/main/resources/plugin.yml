@@ -1,0 +1,12 @@
+name: Pillow
+version: ${project.version}
+main: com.vencorr.pillow.Main
+api-version: 1.13
+description: Utilities for Beds
+commands:
+  pillow:
+    description: Pillow Plugin information
+  bedtp:
+    description: Initialize Bed teleport
+  hub:
+    description: Initialize Hub teleport

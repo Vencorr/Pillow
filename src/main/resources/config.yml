@@ -1,0 +1,21 @@
+# Pillow Configuration
+# Bed utilities plugin for servers
+# 0.1.2
+
+teleport-time: 5 # Seconds
+
+bedtp: {
+    enabled: true,
+    require-overworld: true
+}
+
+multiplayersleep: {
+    enabled: true,
+    world: "world",
+    required: 0.5, # Percentage
+    broadcast: "&bThe night has been skipped."
+}
+
+hubtp: {
+    enabled: true
+}

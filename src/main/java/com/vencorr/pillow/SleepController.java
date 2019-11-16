@@ -15,7 +15,7 @@ public class SleepController {
 
     // Sleep Variables
     int sleeping;
-    double sleepRequired = 0.5; // Main.plugin.config.getDouble("sleep-required");
+    double sleepRequired = Main.plugin.config.getDouble("multiplayersleep.required");
     float sleepLimit;
 
     SleepController() {

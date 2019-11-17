@@ -5,17 +5,17 @@
 world: "world"
 
 bedtp:
-    enabled: true,
-    time: 3,
-    require-overworld: true,
+    enabled: true
+    time: 3
+    require-overworld: true
     dimension-multiplier: 2
 
 multiplayersleep:
-    enabled: true,
-    required: 0.5, # Percentage
+    enabled: true
+    required: 0.5 # Percentage
     broadcast: "&bThe night has been skipped."
 
 hubtp:
-    enabled: true,
-    time: 3,
+    enabled: true
+    time: 3
     dimension-multiplier: 2

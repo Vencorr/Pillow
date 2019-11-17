@@ -11,12 +11,12 @@ import org.bukkit.entity.Player;
 public class HubTeleport implements CommandExecutor {
 
     World world = Bukkit.getWorld(Main.plugin.config.getString("world"));
-    int time = Main.plugin.config.getInt("hubtp.time");
     Main main = Main.plugin;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String error = main.defautlErr;
+        int time = Main.plugin.config.getInt("hubtp.time");
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (!player.getWorld().getEnvironment().equals(World.Environment.NORMAL)) time *= Main.plugin.config.getInt("hubtp.dimension-multiplier");

@@ -9,35 +9,27 @@ import org.bukkit.entity.Player;
 
 public class BedTeleport implements CommandExecutor {
 
-    private boolean overworldReq = Main.plugin.config.getBoolean("bedtp.require-overworld");
     private int time = Main.plugin.config.getInt("bedtp.time");
-
-    private boolean plyrOverwold(Player player) {
-        World.Environment env = player.getWorld().getEnvironment();
-        if (overworldReq) {
-            if (env.equals(World.Environment.NORMAL)) return true;
-            else return false;
-        } else {
-            return true;
-        }
-    }
+    Main main = Main.plugin;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("Sender is not a player!");
-        } else {
+        String error = main.defautlErr;
+        if (sender instanceof Player) {
             Player player = (Player) sender;
-            int time = Main.plugin.config.getInt("bedtp.time");
-            if (player.getWorld().getEnvironment() != World.Environment.NORMAL) time *= Main.plugin.config.getInt("bedtp.dimension-multiplier");
-            if (player.getBedSpawnLocation() != null && plyrOverwold(player)) return new TeleportProgress(player, player.getBedSpawnLocation(), time).runn >= 0;
-            else {
-                String errMes = ChatColor.RED + "Pillow.BedTP was unable to begin teleport. This could be due to: \n" +
-                                ChatColor.GOLD + ChatColor.ITALIC + " - Your bed missing.\n" +
-                                " - Your bed is in a dangerous spot with no safe teleport.\n";
-                if (overworldReq) errMes += " - You are not in the overworld.";
+            if (!player.getWorld().getEnvironment().equals(World.Environment.NORMAL)) time *= Main.plugin.config.getInt("bedtp.dimension-multiplier");
+
+            if (player.getBedSpawnLocation() != null && main.playerInOverWorld(player, "bedtp") && !main.enderDragonAlive(player, "bedtp")) {
+                return new TeleportProgress(player, player.getBedSpawnLocation(), time).runn >= 0;
+            } else {
+                if (player.getBedSpawnLocation() == null) error = main.missingBed;
+                if (!main.enderDragonAlive(player, "bedtp")) error = main.dragonAlive;
+                if (!main.playerInOverWorld(player, "bedtp")) error = main.noOverworld;
+                String errMes = ChatColor.RED + "Pillow.BedTP was unable to begin teleport:\n" + ChatColor.GOLD + ChatColor.ITALIC + error;
                 player.sendMessage(errMes);
             }
+        } else {
+            sender.sendMessage("Sender is not a player!");
         }
         return true;
     }

@@ -2,7 +2,10 @@ package com.vencorr.pillow;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EnderDragon;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +14,12 @@ public final class Main extends JavaPlugin {
     public static Main plugin;
     FileConfiguration config = this.getConfig();
     SleepController control;
+
+    // Error Messages
+    String defautlErr = "Generic Error: Report this to your administrator!";
+    String missingBed = "Your bed is missing or no safe spot could be located.";
+    String noOverworld = "You must be in the overworld to teleport.";
+    String dragonAlive = "Not allowed to teleport while fighting boss.";
 
     @Override
     public void onEnable() {
@@ -37,7 +46,29 @@ public final class Main extends JavaPlugin {
         plugin = null;
     }
 
-    public boolean hasPerms(Player player, String permission) {
+    boolean hasPerms(Player player, String permission) {
         return player.hasPermission(permission) || player.isOp();
+    }
+
+    boolean playerInOverWorld(Player player, String permission) {
+        World.Environment env = player.getWorld().getEnvironment();
+        if (Main.plugin.config.getBoolean(permission + ".require-overworld")) {
+            if (env.equals(World.Environment.NORMAL)) return true;
+            else return false;
+        } else {
+            return true;
+        }
+    }
+
+    boolean enderDragonAlive(Player player, String permission) {
+        boolean endConf = config.getBoolean(permission + ".allow-on-boss");
+        if (player.getWorld().getEnvironment().equals(World.Environment.THE_END)) {
+            EnderDragon dragon = null;
+            for (LivingEntity ent : player.getWorld().getLivingEntities()) {
+                if (ent instanceof EnderDragon) dragon = (EnderDragon) ent;
+            }
+            if (dragon != null && (endConf || !endConf)) return true;
+            else return false;
+        } else return false;
     }
 }

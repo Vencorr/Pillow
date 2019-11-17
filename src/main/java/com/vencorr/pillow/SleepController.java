@@ -23,24 +23,21 @@ public class SleepController {
         sleepBar.setProgress(0);
     }
 
-    void updatePlayers() {
-        int overworldPlayers = 0;
-        for (Player play : Bukkit.getOnlinePlayers()) {
-            if (play.getWorld().getEnvironment() == World.Environment.NORMAL) {
-                overworldPlayers++;
-            }
-        }
-        sleepLimit = Math.round(overworldPlayers * (float) sleepRequired);
-    }
-
     int runn = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.plugin, new Runnable() {
         @Override
         public void run() {
             World world = Bukkit.getWorld(Main.plugin.config.getString("world"));
+            int overworldPlayers = 0;
+            for (Player play : Bukkit.getOnlinePlayers()) {
+                if (play.getWorld().getEnvironment() == World.Environment.NORMAL) {
+                    overworldPlayers++;
+                }
+            }
+            sleepLimit = Math.round(overworldPlayers * (float) sleepRequired);
             double value = sleeping / sleepLimit;
-            if (sleeping == 0) value = 0;
-            if (world.getTime() >= 13000 && !Double.isNaN(value)) {
-                updatePlayers();
+            if (sleeping <= 0) value = 0;
+            if (world.getTime() >= 12542 && !Double.isNaN(value)) {
+
                 sleepBar.setProgress(value);
                 if (sleepBar.getProgress() >= 1) {
                     world.setTime(0);

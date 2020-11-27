@@ -1,25 +1,35 @@
 # Pillow Configuration
 # Bed utilities plugin for servers
-# 0.1.4
+# 0.1.5
 
 world: "world"
-about-ops: true
 
 bedtp:
     enabled: true
-    time: 3
-    require-overworld: true
+    time: 3 # Default time it takes in seconds to teleport.
+    strict: true # Only allow teleporting in the same dimension.
     allow-on-boss: false
-    dimension-multiplier: 2
+    dimension-multiplier: 2 # Multiplier for the 'time' value if the destination is in another dimension. Set this to 1 for no multiplier.
 
 multiplayersleep:
     enabled: true
-    required: 0.5 # Percentage
+    required: 0.5 # Ratio of users.
+    enable-broadcast: true
     broadcast: "&bThe night has been skipped."
 
-hubtp:
+hubtp: # These settings follow the same descriptions as the ones in 'bedtp'.
     enabled: true
     time: 3
-    require-overworld: true
+    strict: true
     allow-on-boss: false
     dimension-multiplier: 2
+
+messages:
+    # Only displayed if there was a serious bug encountered.
+    defaultErr: "&6&oGeneric Error: Report this to your administrator!&r"
+    # Missing a Bed or Respawn Anchor.
+    missingBed: "&6&oYour bed is missing or no safe spot could be located.&r"
+    # In the wrong dimension for the destination.
+    wrongDimen: "&6&oYou are in the wrong dimension to teleport.&r"
+    # The dragon is still alive and the player is in the End.
+    dragonAlive: "&6&oNot allowed to teleport while fighting boss.&r"

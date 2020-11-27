@@ -16,10 +16,10 @@ public final class Main extends JavaPlugin {
     SleepController control;
 
     // Error Messages
-    String defautlErr = "Generic Error: Report this to your administrator!";
-    String missingBed = "Your bed is missing or no safe spot could be located.";
-    String noOverworld = "You must be in the overworld to teleport.";
-    String dragonAlive = "Not allowed to teleport while fighting boss.";
+    String defaultErr;
+    String missingBed;
+    String wrongDimen;
+    String dragonAlive;
 
     @Override
     public void onEnable() {
@@ -32,11 +32,20 @@ public final class Main extends JavaPlugin {
             control = new SleepController();
             getServer().getPluginManager().registerEvents(new SleepListener(), this);
             if (Main.plugin.config.getString("world") == null) {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Pillow.MultiplayerSleep was unable to locate a world named '" + Main.plugin.config.getString("multiplayersleep.world") + "'!");
+                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Unable to locate a world named '" + Main.plugin.config.getString("multiplayersleep.world") + "'!");
                 Bukkit.getPluginManager().disablePlugin(this);
             }
-            if (control.runn < 0) Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "There was an error running Pillow.MPSleep.");
+            for (World wrld : Bukkit.getWorlds()) {
+                if (control.runn(wrld) < 0)
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "There was an error running Pillow.MPSleep.");
+            }
         }
+
+        defaultErr = ChatColor.translateAlternateColorCodes('&', config.getString("messages.defaultErr"));
+        missingBed = ChatColor.translateAlternateColorCodes('&', config.getString("messages.missingBed"));
+        wrongDimen = ChatColor.translateAlternateColorCodes('&', config.getString("messages.wrongDimen"));
+        dragonAlive = ChatColor.translateAlternateColorCodes('&', config.getString("messages.dragonAlive"));
+
         if (config.getBoolean("bedtp.enabled")) this.getCommand("bedtp").setExecutor(new BedTeleport());
         if (config.getBoolean("hubtp.enabled")) this.getCommand("hub").setExecutor(new HubTeleport());
     }
@@ -48,16 +57,6 @@ public final class Main extends JavaPlugin {
 
     boolean hasPerms(Player player, String permission) {
         return player.hasPermission(permission) || player.isOp();
-    }
-
-    boolean playerInOverWorld(Player player, String permission) {
-        World.Environment env = player.getWorld().getEnvironment();
-        if (Main.plugin.config.getBoolean(permission + ".require-overworld")) {
-            if (env.equals(World.Environment.NORMAL)) return true;
-            else return false;
-        } else {
-            return true;
-        }
     }
 
     boolean enderDragonAlive(Player player, String permission) {

@@ -19,8 +19,7 @@ public class PillowAbout implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if ((sender instanceof Player && (Main.plugin.hasPerms((Player) sender, "pillow.about") || !Main.plugin.config.getBoolean("about-ops"))) || sender instanceof ConsoleCommandSender) {
-
+        if ((sender instanceof Player && Main.plugin.hasPerms((Player) sender, "pillow.about")) || sender instanceof ConsoleCommandSender) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lPillow Plugin Information\n&r" +
                     "&6Version: &e0.1.4\n" +
                     "&6Author: &eVencorr\n" +

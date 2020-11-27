@@ -1,7 +1,7 @@
 name: Pillow
 version: ${project.version}
 main: com.vencorr.pillow.Main
-api-version: 1.13
+api-version: 1.14
 description: Utilities for Beds
 commands:
   pillow:
